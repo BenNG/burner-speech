@@ -8,3 +8,4 @@ app/components/hello.js
 app/langs/default
 scripts/traduction.js
 dist/
+example/bundle.js
