@@ -1,6 +1,6 @@
 {
   "name": "burner-speech",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "React component that use the Speech Recognition API",
   "main": "dist/index.js",
   "scripts": {
@@ -15,7 +15,9 @@
     "react": "0.14.2",
     "react-dom": "0.14.0"
   },
-  "keywords": ["react-component"],
+  "keywords": [
+    "react-component"
+  ],
   "devDependencies": {
     "babel": "5.8.34",
     "babel-core": "^5.8.25",
