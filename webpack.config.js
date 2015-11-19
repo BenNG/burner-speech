@@ -12,5 +12,8 @@ module.exports = {
             {test: /\.js$/, loader: "babel"},
             {test: /\.css$/, loader: "style!css"}
         ]
+    },
+    externals: {
+        react: 'react'
     }
 };
