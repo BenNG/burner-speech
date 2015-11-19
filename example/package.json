@@ -1,0 +1,21 @@
+{
+  "name": "example",
+  "version": "0.0.1",
+  "description": "example of burner-speech",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-plugin-react-transform": "1.1.1",
+    "express": "4.13.3",
+    "react": "0.14.3",
+    "react-dom": "0.14.3",
+    "react-transform-hmr": "1.0.1",
+    "webpack": "1.12.6",
+    "webpack-dev-middleware": "1.2.0",
+    "webpack-hot-middleware": "2.5.0"
+  }
+}
