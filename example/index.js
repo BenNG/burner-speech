@@ -1,12 +1,15 @@
 import React from 'react';
 import {render} from 'react-dom';
-import Component from '../dist/index.js';
+import Speech from '../dist/index.js';
 
 const App = React.createClass({
+    handleOnResult(value){
+        console.log({value});
+    },
     render(){
         return (
             <div>
-                <Component />
+                <Speech onResult={this.handleOnResult} activated={true} noUI={false} locale="fr-FR"/>
             </div>
         );
     }
