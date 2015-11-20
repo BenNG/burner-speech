@@ -20,6 +20,7 @@ var BurnerSpeech = React.createClass({
             activated: this.props.activated,
             locale: this.props.locale,
             valueTab: [],
+            featureTestedSuccessfully: false,
         };
     },
     componentWillMount(){
@@ -32,7 +33,29 @@ var BurnerSpeech = React.createClass({
         }
     },
     componentWillUpdate(nextProps,nextState){
-        let {running, abort, activated} = nextState;
+        let {running, abort, activated, test, valueTab, expectedValue} = nextState;
+        let value = valueTab[0];
+
+
+        if(test && value){
+            if(test && value == expectedValue){
+                this.setState({
+                    featureTestedSuccessfully: true,
+                    test: false,
+                    expectedValue: '',
+                    valueTab: [],
+                });
+                this.props.onTestResult(true);
+            }else{
+                this.setState({
+                    featureTestedSuccessfully: false,
+                    test: false,
+                    expectedValue: '',
+                    valueTab: [],
+                });
+                this.props.onTestResult(false);
+            }
+        }
 
         if (activated){
 
@@ -93,7 +116,7 @@ var BurnerSpeech = React.createClass({
     },
     render: function(){
 
-        let {available, activated} = this.state;
+        let {available, activated, test} = this.state;
 
         let availabilityUI = <div>
             <div>Feature available</div>
@@ -114,6 +137,7 @@ var BurnerSpeech = React.createClass({
                 <button onClick={() => this.setState({running: true, abort: false})}>start</button>
                 <button onClick={() => this.setState({running: false})}>stop</button>
                 <button onClick={() => this.setState({abort: true})}>abort</button>
+                <button onClick={() => this.setState({test: true, expectedValue: 1 + Math.round(Math.random()* 29)})}>test Feature</button>
             </div>
         </div>;
 
@@ -128,6 +152,27 @@ var BurnerSpeech = React.createClass({
                         {availabilityUI}
                         {available ? activationUI : null}
                         {activated ? controlsUI : null}
+                        {test ?
+                            <div>
+                                <h1>Test the voice recognition feature</h1>
+                                <p>{'Say \"_number_\"'.replace('\"_number_\"', this.state.expectedValue)}</p>
+                                <button
+                                    onClick={() => this.setState({test: false})}>Quit</button>
+                                <button
+                                    onClick={() => this.setState({abort: false, running: true})}>Turn on voice recognition</button>
+                            </div> : null
+                        }
+
+                        <div>
+                            <span>Feature tested successfully ?</span>
+                            <span>
+                                {this.state.featureTestedSuccessfully ?
+                                    <span style={{color: 'green'}}>YES</span> :
+                                    <span style={{color: 'red'}}>NO</span>
+                                }
+                            </span>
+                        </div>
+
                     </div>
 
                 }

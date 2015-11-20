@@ -6,10 +6,15 @@ const App = React.createClass({
     handleOnResult(value){
         console.log({value});
     },
+    handleOnTestResult(value){
+        console.log("result of test: " + value);
+    },
     render(){
         return (
             <div>
-                <Speech onResult={this.handleOnResult} activated={true} noUI={false} locale="fr-FR"/>
+                <Speech activated={true} noUI={false} locale="fr-FR"
+                    onResult={this.handleOnResult}
+                    onTestResult={this.handleOnTestResult}/>
             </div>
         );
     }
