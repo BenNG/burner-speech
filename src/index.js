@@ -16,11 +16,10 @@ var BurnerSpeech = React.createClass({
     },
     getInitialState(){
         return {
-            recognition: null,
             available: false,
             activated: this.props.activated,
             locale: this.props.locale,
-            final_transcript: [],
+            valueTab: [],
         };
     },
     componentWillMount(){
@@ -38,13 +37,11 @@ var BurnerSpeech = React.createClass({
         if (activated){
 
             if (!running && !abort){
-                this.stop();
-            } else if (!running && abort){
-                this.abort();
+                this.recognition.stop();
             } else if (running && !abort){
-                this.start();
+                this.recognition.start();
             } else if (running && abort){
-                this.abort();
+                this.recognition.abort();
             }
 
         }
@@ -58,71 +55,42 @@ var BurnerSpeech = React.createClass({
     },
     _setup(){
 
-        let that = this;
+        this.tempValue = [];
         // already initialized ?
-        if (that.state.recognition){
+        if (this.recognition){
             return;
         }
+        let that = this;
 
-        let recognition = new window.SpeechRecognition();
-        recognition.lang = this.state.locale;
-        //_recognition.continuous = true;
-        //recognition.interimResults = true;
-        recognition.onstart = function (){
+        this.recognition = new window.SpeechRecognition();
+        this.recognition.lang = this.state.locale;
+        //_this.recognition.continuous = true;
+        //this.recognition.interimResults = true;
+        this.recognition.onstart = function (){
             console.log('---');
             console.log('speech: has been activated');
         };
-        recognition.onresult = function (event){
-
+        this.recognition.onresult = function (event){
             for (let i = event.resultIndex; i < event.results.length; ++i){
                 if (event.results[i].isFinal){
-                    that.state.final_transcript.push(event.results[i][0].transcript);
-                    // temporary results
-                    //if (process.env.NODE_ENV !== ENVIRONMENT.PRODUCTION && storage.getItem(LOCAL_STORAGE.DEBUG)){
-                    //    console.log('speech: raw results ' + that.state.final_transcript);
-                    //}
+                    that.tempValue.push(event.results[i][0].transcript);
                 }
             }
         };
-        recognition.onerror = function (event){
-            that.setState({running: false});
+        this.recognition.onerror = function (event){
             console.log('speech: error');
             console.log(event);
         };
-        recognition.onend = function (){
-            that.setState({running: false});
-            let value = that.state.final_transcript[0];
-            console.log('speech: final results: ' + value);
+        /**  onend is always called (after voice, after stop, after abort, after timeout) */
+        this.recognition.onend = function (){
+            that.setState({running: false, valueTab: that.tempValue});
+            that.props.onResult(that.tempValue[0]);
+            console.log('speech: final results: ' + that.tempValue);
             console.log('---');
-            that.props.onResult(value);
-            that.setState({
-                final_transcript: [],
-            });
+            that.tempValue = [];
         };
 
-        this.setState({recognition});
-
     },
-    start(){
-        let recognition = this.state.recognition;
-        if (recognition){
-            recognition.start();
-        }
-
-    },
-    stop(){
-        let recognition = this.state.recognition;
-        if (recognition){
-            recognition.stop();
-        }
-    },
-    abort(){
-        let recognition = this.state.recognition;
-        if (recognition){
-            recognition.abort();
-        }
-    },
-
     render: function(){
 
         let {available, activated} = this.state;
@@ -143,9 +111,9 @@ var BurnerSpeech = React.createClass({
         let controlsUI = <div>
             <div>
                 <div>Controls:</div>
-                <button onClick={() => this.setState({start: true, abort: false, running: true})}>start</button>
+                <button onClick={() => this.setState({running: true, abort: false})}>start</button>
                 <button onClick={() => this.setState({running: false})}>stop</button>
-                <button onClick={() => this.setState({start: false, abort: true, running: false})}>abort</button>
+                <button onClick={() => this.setState({abort: true})}>abort</button>
             </div>
         </div>;
 
