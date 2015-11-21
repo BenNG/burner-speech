@@ -26,5 +26,16 @@
     "express": "^4.13.3",
     "rimraf": "^2.4.3",
     "webpack": "1.12.4"
-  }
+  },
+  "directories": {
+    "example": "example"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BenNG/burner-speech.git"
+  },
+  "bugs": {
+    "url": "https://github.com/BenNG/burner-speech/issues"
+  },
+  "homepage": "https://github.com/BenNG/burner-speech#readme"
 }
