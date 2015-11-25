@@ -1,0 +1,25 @@
+{
+  "name": "burner-speech-example",
+  "version": "0.0.1",
+  "description": "example of burner-speech",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "node devServer.js",
+    "dev": "webpack -w"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-plugin-react-transform": "1.1.1",
+    "express": "4.13.3",
+    "material-ui": "0.13.4",
+    "react": "0.14.3",
+    "react-dom": "0.14.3",
+    "react-tap-event-plugin": "^0.2.1",
+    "react-transform-hmr": "1.0.1",
+    "webpack": "1.12.6",
+    "webpack-dev-middleware": "1.2.0",
+    "webpack-hot-middleware": "2.5.0"
+  }
+}

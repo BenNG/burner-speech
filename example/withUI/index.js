@@ -1,6 +1,8 @@
 import React from 'react';
 import {render} from 'react-dom';
-import Speech from '../dist/index.js';
+import Speech from '../../dist/index.js';
+
+import Dialog from 'material-ui/lib/dialog.js';
 
 let initialState = {
     start: false,
@@ -22,6 +24,7 @@ const App = React.createClass({
         // start popup here with the expected value for example
         let expectedValue = 10 + Math.round(Math.random()* 29);
         console.log("say: " + expectedValue);
+
         this.setState({triggerTest: true, start: true, expectedValue });
     },
     handleTestResult(isSuccess){
@@ -34,20 +37,29 @@ const App = React.createClass({
         this.setState(initialState);
     },
     render(){
+
+        let {start, stop, abort, triggerTest, expectedValue} = this.state;
+
         return (
             <div>
 
-                <Speech start={this.state.start} stop={this.state.stop} abort={this.state.abort}
-                        isComponentOnTest={this.state.triggerTest} expectedValue={this.state.expectedValue}
+                <Speech start={start} stop={stop} abort={abort}
+                        isComponentOnTest={triggerTest} expectedValue={expectedValue}
                     activated={true} locale="fr-FR"
                     onResult={this.handleResult}
                     onTestResult={this.handleTestResult}
                     debug={false}
                 />
 
-                <div>Open your dev tools</div>
+                <Dialog
+                    title="Speech Recognition Testing"
+                    actions={[{text: "Quit" , onClick: () => this.setState({stop: true, triggerTest: false})}]}
+                    defaultOpen={triggerTest}
+                    open={triggerTest}
+                    ref='dialog_speech_test'>
+                    {"say _number_".replace("_number_", expectedValue)}
+                </Dialog>
 
-                {/* controls */}
 
                 <button onClick={this.start}>start</button>
                 <button onClick={ () => this.setState({stop: true}) }>stop</button>
