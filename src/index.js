@@ -1,6 +1,4 @@
 import React from 'react';
-import {Map} from 'immutable';
-
 
 var BurnerSpeech = React.createClass({
     propTypes: {
