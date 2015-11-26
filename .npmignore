@@ -1,3 +1,2 @@
-node_modules
-example/simple/dist/
-example/withUI/dist/
+.idea
+example/
