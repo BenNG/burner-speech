@@ -14,6 +14,9 @@ const App = React.createClass({
     getInitialState(){
         return initialState;
     },
+    speechFeatureDetector(isAvailable){
+        console.log(isAvailable ? "Speech Recognition API is available. Test the feature anyway because on old chrome there are some bugs" : "Speech Recognition API is not available");
+    },
     start(){
         console.log("say something ...");
         this.setState({start: true});
@@ -39,6 +42,7 @@ const App = React.createClass({
 
                 <Speech start={this.state.start} stop={this.state.stop} abort={this.state.abort}
                         isComponentOnTest={this.state.triggerTest} expectedValue={this.state.expectedValue}
+                        featureDetector={this.speechFeatureDetector}
                     activated={true} locale="fr-FR"
                     onResult={this.handleResult}
                     onTestResult={this.handleTestResult}

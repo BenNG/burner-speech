@@ -78,7 +78,9 @@ var BurnerSpeech = React.createClass({
     },
     detector(){
         window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition || null;
-        this.setState({available: !!window.SpeechRecognition })
+        let flag = !!window.SpeechRecognition
+        this.setState({available: flag });
+        this.props.featureDetector(flag);
     },
     toggleFeature(){
         this.setState({activated: !this.state.activated})
